@@ -1,5 +1,4 @@
 import os
-import pandas as pn
 import logo
 
 os.system('cls' if os.name == 'nt' else 'clear')
@@ -10,7 +9,7 @@ CONTINUE = True
 DATA_FILE = "CaesarCypher/character.txt"
 ALPHABET = []
 
-# # Generate a list from the file content.
+# Generate a list from the file content.
 with open(file=DATA_FILE, mode='r',encoding="utf-8") as data:
     ALPHABET = data.read().rsplit()
 
