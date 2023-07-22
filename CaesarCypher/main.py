@@ -1,6 +1,7 @@
 import logo
 import os
 from ccypher import CCypher
+from gui import AppGUI
 
 def main():
     
@@ -38,4 +39,5 @@ def main():
 if __name__ == "__main__":
     os.system('cls' if os.name == 'nt' else 'clear')
     print(logo.logo)
-    main()
+    # main()
+    newGUI = AppGUI()
