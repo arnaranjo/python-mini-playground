@@ -7,15 +7,16 @@ CLASS CCypher:
 
 class CCypher:
     def __init__ (self):
+        
         self.dataFile = "CaesarCypher/character.txt"
         self.alphabet = []
-
+        
+        self.DefineAlphabet()
 
     def DefineAlphabet(self):
         # Generate a list from the file content.
         with open(file=self.dataFile, mode='r',encoding="utf-8") as data:
             self.alphabet = data.read().rsplit()
-
 
     def Encrypt(self, mainText, step):
         texEncrypted = ""
@@ -24,8 +25,7 @@ class CCypher:
             if lt in self.alphabet:
                 texEncrypted += self.alphabet[newIndex if newIndex < len(self.alphabet) else newIndex - len(self.alphabet)]
             # If the new position is out of the range, it will set the new index from the beginning. 
-        print(f"The text encrypted is: {texEncrypted}")
-
+        return texEncrypted
 
     def Decrypt(self, mainText, step):
         textDecrypted = ""
@@ -34,4 +34,4 @@ class CCypher:
             if lt in self.alphabet:
                 textDecrypted += self.alphabet[newIndex if newIndex >= 0 else len(self.alphabet) + newIndex]
             # If the new position is out of the range, it will set the index from the end of the list because newIndex is negative. 
-        print(f"The text decrypted is: {textDecrypted}")
+        return textDecrypted

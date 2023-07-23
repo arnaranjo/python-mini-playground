@@ -1,43 +1,43 @@
-import logo
-import os
+'''
+CLASS AppController:
+    Performs the control of the view and the model.
+'''
+
 from ccypher import CCypher
 from gui import AppGUI
 
-def main():
-    
-    KEEPON = True
-    newCypher = CCypher()
-    newCypher.DefineAlphabet()
-
-    while KEEPON:
-        choice = input("Type 'E' to encrypt or type 'D' to decrypt a text: ")
-        while choice != 'E' and choice != 'D':
-            choice = input("Please, type 'E' to encrypt or type 'D' to decrypt a text: ")
+class AppController:
+    def __init__(self, Model, View):
         
+        self.model = Model
+        self.view = View
+
+        self.result = ""
+
+    def Execute(self):
         try:
-            if choice == 'E':
-                mainText = input("Type the text to encrypt: ")
-                step = int(input("Set the encryption number: "))
-                newCypher.Encrypt(mainText, step)
+            if self.view.varRadio.get() == 0:
+                self.result = self.model.Encrypt(
+                    self.view.textEntry.get(),
+                    self.view.varStep.get()
+                )
+                self.view.resultLabel.config(text = self.result)
 
-            elif choice == 'D':
-                mainText = input("Type the text git: ")
-                step = int(input("Set the encryption number: "))
-                newCypher.Decrypt(mainText, step)
+            elif self.view.varRadio.get() == 1:
+                self.result = self.model.Decrypt(
+                self.view.textEntry.get(),
+                self.view.varStep.get()
+                )
+                self.view.resultLabel.config(text = self.result)
+
         except:
-            print("Error with the character.")
-        
-        selection = input("Type 'yes' if you want to use the app again. Otherwise type 'no': ")
-        while selection != 'yes' and selection != 'no':
-            selection = input("Please, type 'yes' or 'no': ")
-        if selection == 'no':
-            KEEPON = False
-            print("Goodbye!")    
+            self.view.textError()
 
 #--------------------------------------------------------------#
 
 if __name__ == "__main__":
-    os.system('cls' if os.name == 'nt' else 'clear')
-    print(logo.logo)
-    # main()
-    newGUI = AppGUI()
+    newCypher = CCypher()
+    newController = AppController(newCypher, None)
+    newGUI = AppGUI( newController)
+    newController.view = newGUI
+    newGUI.mainloop()
