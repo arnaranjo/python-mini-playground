@@ -38,6 +38,6 @@ class AppController:
 if __name__ == "__main__":
     newCypher = CCypher()
     newController = AppController(newCypher, None)
-    newGUI = AppGUI( newController)
+    newGUI = AppGUI(newController)
     newController.view = newGUI
     newGUI.mainloop()

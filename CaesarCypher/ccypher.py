@@ -14,9 +14,9 @@ class CCypher:
         self.DefineAlphabet()
 
     def DefineAlphabet(self):
-        # Generate a list from the file content.
         with open(file=self.dataFile, mode='r',encoding="utf-8") as data:
             self.alphabet = data.read().rsplit()
+                # .rsplit(separator, maxsplit) This method splits a string into a list.
 
     def Encrypt(self, mainText, step):
         texEncrypted = ""
