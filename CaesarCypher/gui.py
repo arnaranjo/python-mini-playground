@@ -1,12 +1,12 @@
 '''
-CLASS AppGUI:
+CLASS CCypherGUI:
     Set the GUI of the application.
 '''
 
 import tkinter as tk
 from tkinter import messagebox
 
-class AppGUI(tk.Tk):
+class CCypherGUI(tk.Tk):
     def __init__(self, Controller):
         super().__init__()
 
@@ -59,8 +59,8 @@ class AppGUI(tk.Tk):
             relief = "solid",
             font = (self.FONT_FAMILY, self.FONT_SIZE + 2, self.FONT_TYPE)
         ).grid(column=0, row=0, padx=10, pady=20, columnspan=2, sticky='ew')
-            # sticky -- specifies a value of S , N , E , W , or a combination of them, e.g. NW , NE , SW , or SE. 
-            # The parameter tells which side of the "cell" the widget will "stick" to.        
+            # sticky -- specifies a value of S , N , E , W , or a combination of them, e.g. NW , NE , SW , or SE.
+            # The parameter tells which side of the "cell" the widget will "stick" to.
         
         textLabel = tk.Label(
             text = "Type a text:",
