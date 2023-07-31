@@ -4,9 +4,9 @@ CLASS AppController:
 '''
 
 from ccypher import CCypher
-from gui import AppGUI
+from gui import CCypherGUI
 
-class AppController:
+class CCypherController:
     def __init__(self, Model, View):
         
         self.model = Model
@@ -37,7 +37,7 @@ class AppController:
 
 if __name__ == "__main__":
     newCypher = CCypher()
-    newController = AppController(newCypher, None)
-    newGUI = AppGUI(newController)
+    newController = CCypherController(newCypher, None)
+    newGUI = CCypherGUI(newController)
     newController.view = newGUI
     newGUI.mainloop()
