@@ -1,5 +1,8 @@
-from math import floor
+'''
+    class PomodoroModel
+'''
 
+from math import floor
 
 class PomodoroModel:
     def __init__(self):
