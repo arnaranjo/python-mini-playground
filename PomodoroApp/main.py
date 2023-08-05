@@ -6,7 +6,7 @@ from pomodoro import PomodoroModel
 from gui import PomodoroGUI
 
 class PomodoroController:
-    def __init__(self, Model, View):
+    def __init__(self, Model: PomodoroModel, View: PomodoroGUI):
 
         self.model = Model
         self.view = View

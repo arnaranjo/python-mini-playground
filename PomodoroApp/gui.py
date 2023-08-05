@@ -1,5 +1,7 @@
 '''
     class PomodoroGUI
+
+PIL must be installed: pip install Pillow
 Images Source:
 https://www.flaticon.com/free-icon/pomodoro_7329721
 https://www.flaticon.com/free-icon/play_3318660
@@ -7,6 +9,8 @@ https://www.flaticon.com/free-icon/restart_3106716
 '''
 
 import tkinter as tk
+from PIL import Image, ImageTk
+from math import sin, pi
 
 BACKGROUND_COLOR = "#22577a"
 FONT_COLOR = "#d9dcd6"
@@ -16,6 +20,7 @@ START_IMG = "PomodoroApp/startIMG.png"
 RESET_IMG = "PomodoroApp/resetIMG.png"
 WITH_BG = 350
 HEIGHT_BG = 500
+MAX_ANGLE = 0.3
 
 
 class PomodoroGUI(tk.Tk):
@@ -27,22 +32,28 @@ class PomodoroGUI(tk.Tk):
         self.title("Pomodoro App")
         self.geometry(f"{WITH_BG}x{HEIGHT_BG}")
         self.resizable(False,False)
-    
-        self.pomodoroImage = tk.PhotoImage(file = POMODORO_IMG)
+
+        self.imgAngle: float = 0.0
+
+        # WIDGETS ---------------------------------------------------------------#
+
+        self.pomodoroImagePIL = Image.open(POMODORO_IMG)
+        self.pomodoroImage = ImageTk.PhotoImage(self.pomodoroImagePIL)
         self.startImage = tk.PhotoImage(file = START_IMG)
         self.resetImage = tk.PhotoImage(file = RESET_IMG)
+        self.newRotatedCanvasIMG = None
 
-        self.bgCanvas = tk.Canvas(            
+        self.pomodoroCanvas = tk.Canvas(            
             width = WITH_BG,
             height = HEIGHT_BG,
             background = BACKGROUND_COLOR
         )
-        self.bgCanvas.pack()
-
-        self.bgCanvas.create_image(175,200,image=self.pomodoroImage)
+        self.pomodoroCanvas.pack()
+        self.canvasIMG = self.pomodoroCanvas.create_image(175, 200, image = self.pomodoroImage)
 
         self.buttonStart = tk.Button(
             image = self.startImage,
+            highlightthickness = 5,
             command = self.StartBT
         )
         self.buttonStart.pack()
@@ -50,6 +61,7 @@ class PomodoroGUI(tk.Tk):
 
         self.buttonReset = tk.Button(
             image = self.resetImage,
+            highlightthickness = 5,
             command = self.ResetBT
         )
         self.buttonReset.pack()
@@ -75,8 +87,31 @@ class PomodoroGUI(tk.Tk):
         self.timeLabel.pack()
         self.timeLabel.place(x = 50, y = 350)
 
+        # METHOBS ---------------------------------------------------------------#
+
     def StartBT(self):
         self.controller.StartTimer()
+        self.RotateIMG()
 
     def ResetBT(self):
         self.controller.ResetTimer()
+
+    def RotateIMG(self):
+        self.imgAngle += 0.05
+
+        rotatedIMG = self.pomodoroImagePIL.rotate(
+            angle =  ((MAX_ANGLE - sin(self.imgAngle) * MAX_ANGLE * 180)/pi),
+            expand = True,
+            resample = Image.BICUBIC
+        )
+        self.newRotatedCanvasIMG = ImageTk.PhotoImage(rotatedIMG)
+
+        self.pomodoroCanvas.itemconfig(
+            self.canvasIMG,
+            image = self.newRotatedCanvasIMG
+        )         
+
+        self.after(
+            ms = 10,
+            func = self.RotateIMG
+        )
