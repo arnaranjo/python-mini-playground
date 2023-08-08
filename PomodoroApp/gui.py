@@ -21,6 +21,7 @@ RESET_IMG = "PomodoroApp/resetIMG.png"
 WITH_BG = 350
 HEIGHT_BG = 500
 MAX_ANGLE = 0.3
+TIMER = None
 
 
 class PomodoroGUI(tk.Tk):
@@ -34,6 +35,8 @@ class PomodoroGUI(tk.Tk):
         self.resizable(False,False)
 
         self.imgAngle: float = 0.0
+
+        self.rotation = None
 
         # WIDGETS ---------------------------------------------------------------#
 
@@ -90,28 +93,52 @@ class PomodoroGUI(tk.Tk):
         # METHOBS ---------------------------------------------------------------#
 
     def StartBT(self):
+        self.workLabel.config(text="Working...") 
         self.controller.StartTimer()
         self.RotateIMG()
 
     def ResetBT(self):
+        self.timeLabel.config(text = "TIME")
+        self.workLabel.config(text = "Let's Work!")
         self.controller.ResetTimer()
+        self.FixIMG()
+        self.CancelTimer()
+
+    def SetIMG(self, newIMG):
+        self.newRotatedCanvasIMG = ImageTk.PhotoImage(newIMG)
+
+        self.pomodoroCanvas.itemconfig(
+            self.canvasIMG,
+            image = self.newRotatedCanvasIMG
+        ) 
+
+    def FixIMG(self):
+        self.after_cancel(self.rotation)
+        self.imgAngle = 0.0
+        fixIMG = self.pomodoroImagePIL.rotate(0)
+        self.SetIMG(fixIMG)
 
     def RotateIMG(self):
-        self.imgAngle += 0.05
+        self.imgAngle += 0.03
 
         rotatedIMG = self.pomodoroImagePIL.rotate(
             angle =  ((MAX_ANGLE - sin(self.imgAngle) * MAX_ANGLE * 180)/pi),
             expand = True,
             resample = Image.BICUBIC
         )
-        self.newRotatedCanvasIMG = ImageTk.PhotoImage(rotatedIMG)
 
-        self.pomodoroCanvas.itemconfig(
-            self.canvasIMG,
-            image = self.newRotatedCanvasIMG
-        )         
+        self.SetIMG(rotatedIMG)       
+            
+        self.rotation = self.after(ms = 10, func = self.RotateIMG)
 
-        self.after(
-            ms = 10,
-            func = self.RotateIMG
+    def Timer(self):
+        global TIMER
+        self.controller.currentTime -= 1
+        TIMER = self.after(
+            1000,
+            self.controller.CountDown,
+            self.controller.currentTime
         )
+        
+    def CancelTimer(self):
+        self.after_cancel(TIMER)
