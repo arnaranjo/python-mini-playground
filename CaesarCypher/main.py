@@ -1,8 +1,3 @@
-'''
-CLASS AppController:
-    Performs the control of the view and the model.
-'''
-
 from ccypher import CCypher
 from gui import CCypherGUI
 

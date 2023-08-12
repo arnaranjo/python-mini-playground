@@ -1,9 +1,3 @@
-'''
-    class PomodoroController
-        It implements the logic of the timer, 
-        takes the setting and the time formated from the model.
-'''
-
 from pomodoro import PomodoroModel
 from gui import PomodoroGUI
 

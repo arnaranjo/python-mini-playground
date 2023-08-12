@@ -1,8 +1,4 @@
 '''
-    class PomodoroGUI
-        It sets the GUI and contains the methods to control the animation or buttons,
-        as well as the timer delay.
-
 PIL must be installed: pip install Pillow
 Images Source:
 https://www.flaticon.com/free-icon/pomodoro_7329721
@@ -10,7 +6,6 @@ https://www.flaticon.com/free-icon/play_3318660
 https://www.flaticon.com/free-icon/restart_3106716
 '''
 
-from gc import disable, enable
 import tkinter as tk
 from PIL import Image, ImageTk
 from math import sin, pi
@@ -26,7 +21,6 @@ HEIGHT_BG = 500
 MAX_ANGLE = 0.2
 TIMER = None
 
-
 class PomodoroGUI(tk.Tk):
     def __init__(self, Controller):
         super().__init__()
@@ -36,6 +30,7 @@ class PomodoroGUI(tk.Tk):
         self.title("Pomodoro App")
         self.geometry(f"{WITH_BG}x{HEIGHT_BG}")
         self.resizable(False,False)
+            # .resizable(False,False) The result is the same as 0,0.
 
         self.imgAngle: float = 0.0
 
@@ -48,6 +43,7 @@ class PomodoroGUI(tk.Tk):
         self.startImage = tk.PhotoImage(file = START_IMG)
         self.resetImage = tk.PhotoImage(file = RESET_IMG)
         self.newRotatedCanvasIMG = None
+            # This variable will save the image before placing it on the canvas.
 
         self.pomodoroCanvas = tk.Canvas(            
             width = WITH_BG,
@@ -67,6 +63,7 @@ class PomodoroGUI(tk.Tk):
         )
         self.buttonStart.pack()
         self.buttonStart.place(relx = 0.3, y = 420)
+            # relx specifies the position with the fraction of the window.
 
         self.buttonReset = tk.Button(
             image = self.resetImage,
@@ -78,7 +75,7 @@ class PomodoroGUI(tk.Tk):
         self.buttonReset.place(relx = 0.6, y = 420)
 
         self.workLabel = tk.Label(
-            width = 15,
+            width = 15, # The width of the label is given in text units.
             text = "Let's Work!",
             fg = FONT_COLOR,
             background = BACKGROUND_COLOR,
@@ -131,7 +128,10 @@ class PomodoroGUI(tk.Tk):
         rotatedIMG = self.pomodoroImagePIL.rotate(
             angle =  ((MAX_ANGLE - sin(self.imgAngle) * MAX_ANGLE * 180)/pi),
             expand = True,
+                # It expands the output image to make it large enough
+                # to hold the entire rotated image.
             resample = Image.BICUBIC
+                # It applies a filtes to the output.
         )
 
         self.SetIMG(rotatedIMG)       

@@ -1,9 +1,3 @@
-'''
-    class PomodoroModel
-        This class contains only the pomodoro settings,
-        additionally it has a method to format the time.
-'''
-
 from math import floor
 
 WORK_TIME = 25 * 60

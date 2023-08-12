@@ -1,8 +1,7 @@
 '''
-CLASS CCypher:
-    Performs encryption and decryption of a string according to the Caesar cipher
-    It uses an external source of characters and as input the number of steps and the string.
-    (https://en.wikipedia.org/wiki/Caesar_cipher)
+Performs encryption and decryption of a string according to the Caesar cipher
+It uses an external source of characters and as input the number of steps and the string.
+(https://en.wikipedia.org/wiki/Caesar_cipher)
 '''
 
 class CCypher:
