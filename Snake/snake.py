@@ -7,16 +7,25 @@ class Snake():
     def __init__(self):
         
         self.snakeBody = []
-        self.Position()
+        self.CreateSnake()
+        self.snakeHead = self.snakeBody[0]
         self.MoveSnake()
 
-    def Position(self):
+
+    def CreateSnake(self):
         for ps in INIT_POSITION:
             bodyElement = Turtle("square")
             bodyElement.penup()
             bodyElement.color("white")
             bodyElement.setpos(ps)
             self.snakeBody.append(bodyElement)
+    
+    def CreateBodyElement(self):
+        bodyElement = Turtle("square")
+        bodyElement.penup()
+        bodyElement.color("white")
+        bodyElement.setpos(self.snakeBody[len(self.snakeBody)-1].pos())
+        self.snakeBody.append(bodyElement)
     
     def MoveSnake(self):
         for element in range(len(self.snakeBody)-1, 0, -1):
