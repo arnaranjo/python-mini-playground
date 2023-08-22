@@ -1,21 +1,22 @@
 from turtle import Turtle
 from random import randint
 
-class Fruit():
-    def __init__(self, screenWidth, screenHeight):
-
+class Fruit(Turtle):
+    def __init__(self, screenWidth, screenHeight, fruitColor):
+        super().__init__()
+        self.fruitColor = fruitColor
         self.maxWidth = screenWidth
-        self.maxHeight = screenHeight
-        self.currentFruit = None    
+        self.maxHeight = screenHeight   
         self.SetNewFruit()
 
     def GenPosition(self):
         newX = randint((-self.maxWidth/2 + 100),(self.maxWidth/2 - 100))
         newY = randint((-self.maxHeight/2 + 100),(self.maxHeight/2 - 100))
-        self.currentFruit.setpos(newX, newY)
+        self.setpos(newX, newY)
 
     def SetNewFruit(self):
-        self.currentFruit = Turtle("circle")        
-        self.currentFruit.color("blue")
-        self.currentFruit.penup()
+        self.shape("circle")     
+        self.shapesize(0.5,0.5)   
+        self.color(self.fruitColor)
+        self.penup()
         self.GenPosition()
