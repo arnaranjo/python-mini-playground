@@ -41,6 +41,17 @@ class Display():
             font = ("courier", 16, "normal")
         )
     
+    def SetGameOverText(self):
+        self.newScorePen.clear()
+        self.newScorePen.penup()
+        self.newScorePen.goto(0,0)
+        self.newScorePen.pendown()
+        self.newScorePen.write(
+            arg = f"  GAME OVER!\nFinal Score: {self.score}",
+            align = "center",
+            font = ("courier", 22, "normal")
+        )
+
     def Update(self):
         self.newScorePen.clear()
         self.SetText()

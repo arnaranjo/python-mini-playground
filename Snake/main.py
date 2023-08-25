@@ -24,48 +24,66 @@ KEY_LEFT = "Left"
 KEY_DOWN = "Down"
 KEY_RIGHT = "Right"
 
-screen = Screen()
-screen.setup(SCREEN_WIDTH,SCREEN_HEIGHT)
-screen.bgcolor(BACKGROUND_COLOR)
-screen.title("Snake Game!")
+def main():
 
-screen.tracer(0)
-screen.listen()
+    screen = Screen()
+    screen.setup(SCREEN_WIDTH,SCREEN_HEIGHT)
+    screen.bgcolor(BACKGROUND_COLOR)
+    screen.title("Snake Game!")
 
-newSnake = Snake(SNAKE_COLOR)
-newFruit = Fruit(SCREEN_WIDTH, SCREEN_HEIGHT, FRUIT_COLOR)
-newDisplay = Display(TOP_LIMIT,BOTTOM_LIMIT, LEFT_LIMIT, RIGHT_LIMIT, DISPLAY_COLOR)
+    screen.tracer(0)
+    screen.listen()
 
-screen.onkeypress(newSnake.UpSnake, KEY_UP)
-screen.onkeypress(newSnake.LeftSnake, KEY_LEFT)
-screen.onkeypress(newSnake.DownSnake, KEY_DOWN)
-screen.onkeypress(newSnake.RightSnake, KEY_RIGHT)
+    newSnake = Snake(SNAKE_COLOR)
+    newFruit = Fruit(SCREEN_WIDTH, SCREEN_HEIGHT, FRUIT_COLOR)
+    newDisplay = Display(TOP_LIMIT,BOTTOM_LIMIT, LEFT_LIMIT, RIGHT_LIMIT, DISPLAY_COLOR)
 
-def StartGame():       
-    while True:
-        screen.update()    
-        time.sleep(0.1)
+    screen.onkeypress(newSnake.UpSnake, KEY_UP)
+    screen.onkeypress(newSnake.LeftSnake, KEY_LEFT)
+    screen.onkeypress(newSnake.DownSnake, KEY_DOWN)
+    screen.onkeypress(newSnake.RightSnake, KEY_RIGHT)
 
-        newSnake.MoveSnake()
+    def StartGame():       
+        while True:
+            screen.update()    
+            time.sleep(0.1)
 
-        if newSnake.snakeHead.distance(newFruit) < 15:
-            newFruit.GenPosition()
-            newSnake.AddBodyElement()
-            newDisplay.IncreaseScore()
+            newSnake.MoveSnake()
 
-        if  TOP_LIMIT < newSnake.snakeHead.ycor() \
-            or LEFT_LIMIT > newSnake.snakeHead.xcor() \
-            or BOTTOM_LIMIT > newSnake.snakeHead.ycor()  \
-            or RIGHT_LIMIT < newSnake.snakeHead.xcor():
-            time.sleep(1)
-            newSnake.RestartSnake()
-            newDisplay.ResetScore()
+            if newSnake.snakeHead.distance(newFruit) < 15:
+                newFruit.GenPosition()
+                newSnake.AddBodyElement()
+                newDisplay.IncreaseScore()
 
-        for element in newSnake.snakeBody[1:]:
-            if newSnake.snakeHead.distance(element) < 10:
-                time.sleep(1)
-                newSnake.RestartSnake()
-                newDisplay.ResetScore()
+            if  TOP_LIMIT < newSnake.snakeHead.ycor() \
+                or LEFT_LIMIT > newSnake.snakeHead.xcor() \
+                or BOTTOM_LIMIT > newSnake.snakeHead.ycor()  \
+                or RIGHT_LIMIT < newSnake.snakeHead.xcor():
+                    time.sleep(0.5)
+                    newSnake.RemoveSnake()
+                    newFruit.RemoveFruit()
+                    newDisplay.SetGameOverText()
+                    time.sleep(2.5)
+                    newSnake.RestartSnake()                
+                    newFruit.SetNewFruit()
+                    newDisplay.ResetScore()
 
-StartGame()
-screen.mainloop()
+            for element in newSnake.snakeBody[1:]:
+                if newSnake.snakeHead.distance(element) < 10:
+                    time.sleep(0.5)
+                    newSnake.RemoveSnake()
+                    newFruit.RemoveFruit()
+                    newDisplay.SetGameOverText()
+                    time.sleep(2.5)
+                    newSnake.RestartSnake()
+                    newFruit.SetNewFruit()
+                    newDisplay.ResetScore()
+
+    try:
+        StartGame()
+        screen.mainloop()
+    except Exception:
+        pass
+
+if __name__ == "__main__":
+    main()

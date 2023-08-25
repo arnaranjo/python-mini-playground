@@ -1,4 +1,4 @@
-from turtle import Turtle
+from turtle import Turtle, isvisible
 from random import randint
 
 class Fruit(Turtle):
@@ -10,6 +10,9 @@ class Fruit(Turtle):
         self.SetNewFruit()
 
     def GenPosition(self):
+        if self.isvisible():
+            self.showturtle()
+
         newX = randint((-self.maxWidth/2 + 100),(self.maxWidth/2 - 100))
         newY = randint((-self.maxHeight/2 + 100),(self.maxHeight/2 - 100))
         self.setpos(newX, newY)
@@ -20,3 +23,6 @@ class Fruit(Turtle):
         self.color(self.fruitColor)
         self.penup()
         self.GenPosition()
+
+    def RemoveFruit(self):
+        self.reset()

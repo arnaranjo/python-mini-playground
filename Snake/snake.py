@@ -37,11 +37,15 @@ class Snake():
             newY = self.snakeBody[element - 1].ycor()
             self.snakeBody[element].goto(newX, newY)
         self.snakeHead.forward(DISTANCE)
-
-    def RestartSnake(self):
+    
+    def RemoveSnake(self):
         for element in self.snakeBody:
             element.reset()
+            element.hideturtle()
         self.snakeBody.clear()
+
+    def RestartSnake(self):
+        self.RemoveSnake()
         self.CreateSnake()
         self.snakeHead = self.snakeBody[0]
 
