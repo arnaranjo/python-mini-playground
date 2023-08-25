@@ -7,3 +7,4 @@ Thank you for dropping by and being a part of this journey! Feel free to explore
 ### Projects.
 - CaesarCypher: GUI implementation of Caesar's cipher technique.
 - PomodoroAPP: App to use the pomodoro technique and be focused for 25 minutes.
+- Snake: The Classic Game made with Python's Turtle Graphics.
