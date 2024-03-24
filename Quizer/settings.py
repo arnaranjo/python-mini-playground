@@ -154,3 +154,49 @@ class SettingsGUI(ctk.CTkFrame):
         self.numberSelectorLabel.configure(
             text= str(int(value))
         )
+
+    def GetSelections(self, categories):
+        parameters = {}
+
+        # CNumber of questions selected #
+        parameters["amount"] = int(self.numberSelector.get())
+
+        # Category selection #
+        if self.categoryBox.get() != "Any Category":
+            for category in categories:
+                if category["name"] == self.categoryBox.get():
+                    parameters["category"] = category["id"]
+                    
+        elif self.categoryBox.get() == "Any Category" \
+            and "category" in parameters:
+            parameters.pop("category")
+
+        # Difficulty selection #
+        if self.difficultyBox.get() != "Any Difficulty":
+            if self.difficultyBox.get() == "Easy":
+                parameters["difficulty"] = "easy"
+
+            elif self.difficultyBox.get() == "Medium":
+                parameters["difficulty"] = "medium"
+
+            elif self.difficultyBox.get() == "Hard":
+                parameters["difficulty"] = "hard"
+
+        elif self.difficultyBox.get() == "Any Difficulty" \
+            and "difficulty" in parameters:
+            parameters.pop("difficulty")
+
+        # Type selection #
+        if self.typeBox.get() != "Any Type":
+            if self.typeBox.get() == "Multiple":
+                parameters["type"] = "multiple"
+
+            elif self.typeBox.get() == "True/False":
+                parameters["type"] = "boolean"
+                
+        elif self.typeBox.get() == "Any Type" \
+            and "type" in parameters:
+            parameters.pop("type")
+
+        # List of parameters completed #
+        return parameters

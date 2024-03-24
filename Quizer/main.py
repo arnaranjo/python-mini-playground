@@ -15,13 +15,15 @@ class QuizerController():
         self.questionsRequested = self.model.LookUpQuestions()
 
     def BeginQuiz(self, answer):
+        # TODO: Apply encode to the answer.
         # TODO: Implement the count system.
         if answer == self.questionsRequested[self.quizNumber]["correct_answer"]:
             print("OK")            
         else:
             print("FAIL")
 
-        self.quizNumber += 1            
+        self.quizNumber += 1 
+                   
         if self.quizNumber >= len(self.questionsRequested):
             #TODO Implement the final and reset of the quiz
             self.view.SwitchHome()

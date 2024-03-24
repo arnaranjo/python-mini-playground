@@ -27,14 +27,13 @@ class RootGUI(ctk.CTk):
         self.controller = Controller
         self.currentFrame = None
 
+        # Variables setted in main #
         self.categoryNamesList = []
         self.categoryData = []
+
         self.questions = []
         self.answerSelectedList = []
-
-        self.apiParameters = {
-            "amount": 10
-        }
+        self.apiParameters = {}
 
         self.title("Quizer")
         self.geometry(f"{WINDOW_WIDTH}x{WINDOW_HEIGHT}")
@@ -92,47 +91,18 @@ class RootGUI(ctk.CTk):
         self.currentFrame.buttonC.configure(command= lambda : self.CheckAnswer(2))
         self.currentFrame.buttonD.configure(command= lambda : self.CheckAnswer(3))
 
-        self.currentFrame.grid(row=0, column=0, sticky="nsew")
+        self.currentFrame.grid(row=0, column=0, sticky="nsew")  
 
-
-    def SearchCategoryID(self):
-        if self.currentFrame.categoryBox.get() != "Any Category":
-            for category in self.categoryData:
-                if category["name"] == self.currentFrame.categoryBox.get():
-                    self.apiParameters["category"] = category["id"]
-        elif self.currentFrame.categoryBox.get() == "Any Category" \
-            and "category" in self.apiParameters:
-            self.apiParameters.pop("category")
-
-    #TODO Change this function to settings.py an
+    
     def SaveSettings(self):
-        self.apiParameters["amount"] = int(self.currentFrame.numberSelector.get())
-        self.SearchCategoryID()
+        self.apiParameters = {}
+        self. apiParameters = self.currentFrame.GetSelections(self.categoryData)
 
-        if self.currentFrame.difficultyBox.get() != "Any Difficulty":
-            if self.currentFrame.difficultyBox.get() == "Easy":
-                self.apiParameters["difficulty"] = "easy"
-            elif self.currentFrame.difficultyBox.get() == "Medium":
-                self.apiParameters["difficulty"] = "medium"
-            elif self.currentFrame.difficultyBox.get() == "Hard":
-                self.apiParameters["difficulty"] = "hard"
-        elif self.currentFrame.difficultyBox.get() == "Any Difficulty" \
-            and "difficulty" in self.apiParameters:
-            self.apiParameters.pop("difficulty")
-
-        if self.currentFrame.typeBox.get() != "Any Type":
-            if self.currentFrame.typeBox.get() == "Multiple":
-                self.apiParameters["type"] = "multiple"
-            elif self.currentFrame.typeBox.get() == "True/False":
-                self.apiParameters["type"] = "boolean"
-        elif self.currentFrame.typeBox.get() == "Any Type" \
-            and "type" in self.apiParameters:
-            self.apiParameters.pop("type")
+        print(self.apiParameters) #<-------------- TEST.
 
         # Request the parameters
         self.controller.RequestQuestions(self.apiParameters)
         
-
     # Show the quiz in the window
     def ShowQuiz(self, num):
         self.questions = self.controller.questionsRequested[num]
@@ -186,10 +156,9 @@ class RootGUI(ctk.CTk):
 
         return resultList
 
-    # 
+    # Number: 0 (Button A), 1 (Button B), 2 (Button C), 3 (Button D).
     def CheckAnswer(self, number):
 
         print(self.answerSelectedList[number]) #<-------------- TEST.
-        
-        self.controller.BeginQuiz(self.answerSelectedList[number])
 
+        self.controller.BeginQuiz(self.answerSelectedList[number])
