@@ -1,3 +1,4 @@
+import base64
 from root import RootGUI
 from quizer import QuizerModel
 
@@ -7,27 +8,32 @@ class QuizerController():
         self.view = View
         self.model = Model
         self.quizNumber = 0
-
+        self.rightAnswers = 0
         self.questionsRequested = []
+        
 
     def RequestQuestions(self, parameters):
         self.model.finalParameters = parameters
         self.questionsRequested = self.model.LookUpQuestions()
 
+
     def BeginQuiz(self, answer):
-        # TODO: Apply encode to the answer.
-        # TODO: Implement the count system.
-        if answer == self.questionsRequested[self.quizNumber]["correct_answer"]:
-            print("OK")            
+        correctAnswer = base64.b64decode(
+            self.questionsRequested[self.quizNumber]["correct_answer"]
+        ).decode("utf-8")
+
+        if answer == correctAnswer: 
+            print("OK")
+            self.rightAnswers += 1         
         else:
             print("FAIL")
 
         self.quizNumber += 1 
                    
-        if self.quizNumber >= len(self.questionsRequested):
-            #TODO Implement the final and reset of the quiz
-            self.view.SwitchHome()
+        if self.quizNumber >= len(self.questionsRequested):            
+            self.view.SwitchResuls(self.rightAnswers, self.quizNumber)
             self.quizNumber = 0
+            self.rightAnswers = 0
 
         else:
             self.view.ShowQuiz(self.quizNumber)

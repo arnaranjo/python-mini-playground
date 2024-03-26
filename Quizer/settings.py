@@ -55,7 +55,7 @@ class SettingsGUI(ctk.CTkFrame):
             from_ = 5,
             to = 50,
             number_of_steps= 45,
-            command= self.sliderEvent
+            command= self.SliderEvent
         )
         self.numberSelector.grid(row= 1, column= 2,
             pady= (0, 15), padx= 10
@@ -150,7 +150,7 @@ class SettingsGUI(ctk.CTkFrame):
 
     # METHODS ---------------------------------------------------------------#
 
-    def sliderEvent(self, value):
+    def SliderEvent(self, value):
         self.numberSelectorLabel.configure(
             text= str(int(value))
         )
@@ -158,10 +158,10 @@ class SettingsGUI(ctk.CTkFrame):
     def GetSelections(self, categories):
         parameters = {}
 
-        # CNumber of questions selected #
+        # Number of questions selected.
         parameters["amount"] = int(self.numberSelector.get())
 
-        # Category selection #
+        # Category selection.
         if self.categoryBox.get() != "Any Category":
             for category in categories:
                 if category["name"] == self.categoryBox.get():
@@ -171,7 +171,7 @@ class SettingsGUI(ctk.CTkFrame):
             and "category" in parameters:
             parameters.pop("category")
 
-        # Difficulty selection #
+        # Difficulty selection.
         if self.difficultyBox.get() != "Any Difficulty":
             if self.difficultyBox.get() == "Easy":
                 parameters["difficulty"] = "easy"
@@ -186,7 +186,7 @@ class SettingsGUI(ctk.CTkFrame):
             and "difficulty" in parameters:
             parameters.pop("difficulty")
 
-        # Type selection #
+        # Type selection.
         if self.typeBox.get() != "Any Type":
             if self.typeBox.get() == "Multiple":
                 parameters["type"] = "multiple"
@@ -198,5 +198,5 @@ class SettingsGUI(ctk.CTkFrame):
             and "type" in parameters:
             parameters.pop("type")
 
-        # List of parameters completed #
+        # List of parameters completed to request the questions.
         return parameters

@@ -12,6 +12,7 @@ from home import HomeGUI
 from settings import SettingsGUI
 from quiz_multiple import MultipleQuizGUI
 from quiz_boolean import BooleanQuizGUI
+from quiz_results import ResultsGUI
 
 WINDOW_WIDTH = 450
 WINDOW_HEIGHT = 500
@@ -27,7 +28,7 @@ class RootGUI(ctk.CTk):
         self.controller = Controller
         self.currentFrame = None
 
-        # Variables setted in main #
+        # Variables setted in main.
         self.categoryNamesList = []
         self.categoryData = []
 
@@ -39,11 +40,10 @@ class RootGUI(ctk.CTk):
         self.geometry(f"{WINDOW_WIDTH}x{WINDOW_HEIGHT}")
         self.resizable(False,False)
 
-
         self.grid_rowconfigure(0, weight=1)
         self.grid_columnconfigure(0, weight=1)
 
-        # Set the main screnn:
+        # Set the main screen.
         self.SwitchHome()
 
 
@@ -69,6 +69,11 @@ class RootGUI(ctk.CTk):
         
         self.currentFrame.grid(row=0, column=0, sticky="nsew")
 
+        if not self.apiParameters:
+            self.currentFrame.startButton.configure(state= "disabled")
+        else:
+            self.currentFrame.startButton.configure(state= "normal")
+
 
     def SwitchBoolean(self):
         if self.currentFrame is not None:
@@ -76,6 +81,8 @@ class RootGUI(ctk.CTk):
         self.currentFrame = BooleanQuizGUI(master= self)
 
         self.currentFrame.homeButton.configure(command= self.SwitchHome)
+        self.currentFrame.buttonTrue.configure(command= lambda : self.CheckBoolAnswer("True"))
+        self.currentFrame.buttonFalse.configure(command= lambda : self.CheckBoolAnswer("False"))
 
         self.currentFrame.grid(row=0, column=0, sticky="nsew")
 
@@ -86,31 +93,44 @@ class RootGUI(ctk.CTk):
         self.currentFrame = MultipleQuizGUI(master= self)
 
         self.currentFrame.homeButton.configure(command= self.SwitchHome)
-        self.currentFrame.buttonA.configure(command= lambda : self.CheckAnswer(0))
-        self.currentFrame.buttonB.configure(command= lambda : self.CheckAnswer(1))
-        self.currentFrame.buttonC.configure(command= lambda : self.CheckAnswer(2))
-        self.currentFrame.buttonD.configure(command= lambda : self.CheckAnswer(3))
+        self.currentFrame.buttonA.configure(command= lambda : self.CheckMultiAnswer(0))
+        self.currentFrame.buttonB.configure(command= lambda : self.CheckMultiAnswer(1))
+        self.currentFrame.buttonC.configure(command= lambda : self.CheckMultiAnswer(2))
+        self.currentFrame.buttonD.configure(command= lambda : self.CheckMultiAnswer(3))
 
-        self.currentFrame.grid(row=0, column=0, sticky="nsew")  
+        self.currentFrame.grid(row=0, column=0, sticky="nsew")
 
+
+    def SwitchResuls(self, corrects, total):
+        if self.currentFrame is not None:
+            self.currentFrame.destroy()
+        self.currentFrame = ResultsGUI(master= self)
+
+        self.currentFrame.homeButton.configure(command= self.SwitchHome)
+        self.currentFrame.resultLabel.configure(text= f"{corrects} / {total}")
+
+        self.currentFrame.grid(row=0, column=0, sticky="nsew")
+
+        # Empty the parameters to reset the quiz.
+        self.apiParameters = {}
     
+
     def SaveSettings(self):
         self.apiParameters = {}
-        self. apiParameters = self.currentFrame.GetSelections(self.categoryData)
+        self.apiParameters = self.currentFrame.GetSelections(self.categoryData)
 
         print(self.apiParameters) #<-------------- TEST.
 
-        # Request the parameters
+        # Request the questions with the parameters selected.
         self.controller.RequestQuestions(self.apiParameters)
         
-    # Show the quiz in the window
+    # Show the quiz in the window, It depens on the type of quiz.
     def ShowQuiz(self, num):
         self.questions = self.controller.questionsRequested[num]
 
         #Conversion from base64 encode to string.
         type = base64.b64decode(self.questions["type"]).decode("utf-8")
 
-        AnswerList = []
         if type == "multiple":
             self.SwitchMultipleQuiz()
             self.ShowQuestion()       
@@ -120,21 +140,18 @@ class RootGUI(ctk.CTk):
         elif type == "boolean":
             self.SwitchBoolean()
             self.ShowQuestion()
-            AnswerList = self.GetAnsweres()
 
     # Set the text of the TextArea
     def ShowQuestion(self):
         self.currentFrame.textQuiz.delete("0.0", "end")
         self.currentFrame.textQuiz.insert(
             "0.0",
-                base64.b64decode(self.questions["question"]).decode("utf-8")                
+            base64.b64decode(self.questions["question"]).decode("utf-8")                
         )
     
     # Set the text of the buttons randomly from the list of results.
     # Only is used for multiple quiz.
-    def SetText(self, list):
-
-        print(list) #<-------------- TEST.
+    def SetText(self, list):        
         self.answerSelectedList = []
 
         for button in self.currentFrame.buttonList:
@@ -144,7 +161,7 @@ class RootGUI(ctk.CTk):
             )
             list.pop(list.index(answerSelected))
             self.answerSelectedList.append(answerSelected)
-        print(self.answerSelectedList)
+        print(self.answerSelectedList) #<-------------- TEST.
     
     # Return a list of results for multiple and boolean quiz.
     def GetAnsweres(self):
@@ -154,11 +171,16 @@ class RootGUI(ctk.CTk):
         for answer in self.questions["incorrect_answers"]:
             resultList.append(base64.b64decode(answer).decode("utf-8"))
 
+        print(resultList)
         return resultList
 
-    # Number: 0 (Button A), 1 (Button B), 2 (Button C), 3 (Button D).
-    def CheckAnswer(self, number):
-
-        print(self.answerSelectedList[number]) #<-------------- TEST.
-
+    # Number: 
+    # 0 (Text of Button A)
+    # 1 (Text of Button B)
+    # 2 (Text of Button C)
+    # 3 (Text of Button D)
+    def CheckMultiAnswer(self, number):
         self.controller.BeginQuiz(self.answerSelectedList[number])
+
+    def CheckBoolAnswer(self, answer):
+        self.controller.BeginQuiz(answer)

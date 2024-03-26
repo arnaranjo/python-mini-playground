@@ -5,6 +5,7 @@ import requests
 API_ENDPOINT = "https://opentdb.com/api.php?"
 API_CATEGORIES_ENDPOINT = "https://opentdb.com/api_category.php"
 
+
 class QuizerModel:
     def __init__(self):
         self.categoryData = []

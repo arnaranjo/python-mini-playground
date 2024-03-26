@@ -17,7 +17,6 @@ LABEL_BG = "#6D597A"
 class MultipleQuizGUI(ctk.CTkFrame):
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs)
-
         
     # WIDGETS ---------------------------------------------------------------#
     
