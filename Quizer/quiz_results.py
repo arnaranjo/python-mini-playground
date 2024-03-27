@@ -1,16 +1,12 @@
 import customtkinter as ctk
-
-FONT_FAMILY = "arial"
-FONT_SIZE = 16
-FONT_TYPE = "normal"
-
-BOTTON_HEIGHT = 50
-BOTTON_WIDTH = 200
+import config as cf
 
 
 class ResultsGUI(ctk.CTkFrame):
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs)
+
+        # WIDGETS ---------------------------------------------------------------#
 
         ctk.CTkLabel(self,
             text="Hello from results"
@@ -23,8 +19,8 @@ class ResultsGUI(ctk.CTkFrame):
 
         self.homeButton = ctk.CTkButton(self,
             text= "Back to Home",
-            font = (FONT_FAMILY, FONT_SIZE, FONT_TYPE),
-            width= BOTTON_WIDTH,
-            height = BOTTON_HEIGHT
+            font = (cf.FONT_FAMILY, cf.FONT_SIZE, cf.FONT_TYPE),
+            width= cf.BOTTON_WIDTH,
+            height = cf.BOTTON_HEIGHT
         )
         self.homeButton.pack(pady= (0, 15))

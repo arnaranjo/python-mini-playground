@@ -1,24 +1,12 @@
-'''
-Custom tkinter Documentation: https://customtkinter.tomschimansky.com/documentation/
-    Creator: https://github.com/TomSchimansky
-Color palette: https://coolors.co/palette/355070-6d597a-b56576-e56b6f-eaac8b
-'''
-
-
-from random import choice
 import base64
 import customtkinter as ctk
+import config as cf
+from random import choice
 from home import HomeGUI
 from settings import SettingsGUI
 from quiz_multiple import MultipleQuizGUI
 from quiz_boolean import BooleanQuizGUI
 from quiz_results import ResultsGUI
-
-WINDOW_WIDTH = 450
-WINDOW_HEIGHT = 500
-FONT_FAMILY = "arial"
-FONT_SIZE = 11
-FONT_TYPE = "normal"
 
 
 class RootGUI(ctk.CTk):
@@ -37,7 +25,7 @@ class RootGUI(ctk.CTk):
         self.apiParameters = {}
 
         self.title("Quizer")
-        self.geometry(f"{WINDOW_WIDTH}x{WINDOW_HEIGHT}")
+        self.geometry(f"{cf.WINDOW_WIDTH}x{cf.WINDOW_HEIGHT}")
         self.resizable(False,False)
 
         self.grid_rowconfigure(0, weight=1)
@@ -181,6 +169,7 @@ class RootGUI(ctk.CTk):
     # 3 (Text of Button D)
     def CheckMultiAnswer(self, number):
         self.controller.BeginQuiz(self.answerSelectedList[number])
+
 
     def CheckBoolAnswer(self, answer):
         self.controller.BeginQuiz(answer)
