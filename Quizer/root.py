@@ -54,7 +54,8 @@ class RootGUI(ctk.CTk):
 
         self.currentFrame.settingsButton.configure(command= self.SwitchSettings)
         self.currentFrame.startButton.configure(command= lambda : self.ShowQuiz(0))
-        
+        self.currentFrame.quitButton.configure(command = self.quit)
+
         self.currentFrame.grid(row=0, column=0, sticky="nsew")
 
         if not self.apiParameters:
@@ -74,6 +75,8 @@ class RootGUI(ctk.CTk):
 
         self.currentFrame.grid(row=0, column=0, sticky="nsew")
 
+        self.ResetParameters()
+
 
     def SwitchMultipleQuiz(self):
         if self.currentFrame is not None:
@@ -87,6 +90,8 @@ class RootGUI(ctk.CTk):
         self.currentFrame.buttonD.configure(command= lambda : self.CheckMultiAnswer(3))
 
         self.currentFrame.grid(row=0, column=0, sticky="nsew")
+
+        self.ResetParameters()
 
 
     def SwitchResuls(self, corrects, total):
@@ -173,3 +178,7 @@ class RootGUI(ctk.CTk):
 
     def CheckBoolAnswer(self, answer):
         self.controller.BeginQuiz(answer)
+
+    # Only when the player returns to the home windows, are the parameters reset.
+    def ResetParameters(self):
+        self.apiParameters = {}

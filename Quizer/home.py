@@ -8,6 +8,7 @@ class HomeGUI(ctk.CTkFrame):
 
         ctk.CTkLabel(self, text = "Hello from home").pack(pady = (0, 15))
 
+        #TODO: Quiz logo with the light and dark colours.
         self.settingsButton = ctk.CTkButton(self,
             text = "Settings",
             font = (cf.FONT_FAMILY, cf.FONT_SIZE, cf.FONT_TYPE),
@@ -23,3 +24,11 @@ class HomeGUI(ctk.CTkFrame):
             height = cf.BOTTON_HEIGHT
         )
         self.startButton.pack(pady = (0, 15))
+
+        self.quitButton = ctk.CTkButton(self,
+            text = "Exit",
+            font = (cf.FONT_FAMILY, cf.FONT_SIZE, cf.FONT_TYPE),
+            width = cf.BOTTON_WIDTH,
+            height = cf.BOTTON_HEIGHT
+        )
+        self.quitButton.pack(pady = (0, 15))

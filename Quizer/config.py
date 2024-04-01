@@ -4,7 +4,7 @@
 #   Creator: https://github.com/TomSchimansky
 # Color palette: https://coolors.co/palette/355070-6d597a-b56576-e56b6f-eaac8b
 
-WINDOW_WIDTH = 450
+WINDOW_WIDTH = 500
 WINDOW_HEIGHT = 500
 
 FONT_FAMILY = "arial"
