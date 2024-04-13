@@ -10,66 +10,61 @@ class MultipleQuizGUI(ctk.CTkFrame):
     
         ctk.CTkLabel(self,
             text = "Multiple Answer Quiz",            
-            font = (cf.FONT_FAMILY, cf.FONT_SIZE + 4, cf.FONT_TYPE),
-            bg_color = cf.LABEL_BG,
+            font = (cf.FONT_FAMILY, cf.FONT_SIZE_TITLE, cf.FONT_TYPE),
+            fg_color = cf.LABEL_FG,
+            text_color = cf.TEXT_COLOR,
             width = cf.WINDOW_WIDTH,
             height = cf.LABEL_HEIGHT
-        ).grid(row = 0, column= 0,
-            pady = (0, 15), columnspan= 2
-        )
+        ).pack(pady = (0, 20))
 
         self.textQuiz = ctk.CTkTextbox(self,
             font = (cf.FONT_FAMILY, cf.FONT_SIZE, "bold"),
-            width = cf.WINDOW_WIDTH - 50,
-            height = 250,
-            corner_radius = 15
+            width = cf.WINDOW_WIDTH - cf.WINDOW_QUIZ_MARGIN,
+            height = cf.WINDOW_QUIZ_HEIGHT,
+            corner_radius = cf.LOGO_CORNER_RADIUS
         )
-        self.textQuiz.grid(row = 1, column = 0,
-            pady = (0, 15), columnspan = 2
-        )
+        self.textQuiz.pack(pady = (0, 20))
 
         self.buttonA = ctk.CTkButton(self,
             text = "A",
             font = (cf.FONT_FAMILY, cf.FONT_SIZE, cf.FONT_TYPE),
-            width = cf.BOTTON_WIDTH,
+            width = cf.WINDOW_WIDTH - cf.WINDOW_QUIZ_MARGIN,
             height = cf.BOTTON_HEIGHT
         )
-        self.buttonA.grid(row = 2, column = 0, pady = (0, 10))
+        self.buttonA.pack(pady = (0, 10))
 
         self.buttonB = ctk.CTkButton(self,
             text = "B",
             font = (cf.FONT_FAMILY, cf.FONT_SIZE, cf.FONT_TYPE),
-            width = cf.BOTTON_WIDTH,
+            width = cf.WINDOW_WIDTH - cf.WINDOW_QUIZ_MARGIN,
             height = cf.BOTTON_HEIGHT
         )
-        self.buttonB.grid(row = 2, column = 1, pady = (0, 10))
+        self.buttonB.pack(pady = (0, 10))
 
         self.buttonC = ctk.CTkButton(self,
             text = "C",
             font = (cf.FONT_FAMILY, cf.FONT_SIZE, cf.FONT_TYPE),
-            width = cf.BOTTON_WIDTH,
+            width = cf.WINDOW_WIDTH - cf.WINDOW_QUIZ_MARGIN,
             height = cf.BOTTON_HEIGHT
         )
-        self.buttonC.grid(row = 3, column = 0, pady = (0, 10))
+        self.buttonC.pack(pady = (0, 10))
 
         self.buttonD = ctk.CTkButton(self,
             text = "D",
             font = (cf.FONT_FAMILY, cf.FONT_SIZE, cf.FONT_TYPE),
-            width = cf.BOTTON_WIDTH,
+            width = cf.WINDOW_WIDTH - cf.WINDOW_QUIZ_MARGIN,
             height = cf.BOTTON_HEIGHT
         )
-        self.buttonD.grid(row= 3, column= 1, pady= (0, 10))
+        self.buttonD.pack(pady = (0, 20))
 
         self.homeButton = ctk.CTkButton(self,
             text = "Back to Home",
             font = (cf.FONT_FAMILY, cf.FONT_SIZE, cf.FONT_TYPE),
-            width = 200,
-            height = 50
+            width = cf.BOTTON_WIDTH,
+            height = cf.BOTTON_HEIGHT
         )
-        self.homeButton.grid(row = 4, column = 0, 
-            pady = 10, columnspan = 2
-        )
-        
+        self.homeButton.pack()
+
         self.buttonList = [
             self.buttonA,
             self.buttonB,

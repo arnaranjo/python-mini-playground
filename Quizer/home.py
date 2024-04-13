@@ -1,4 +1,5 @@
 import customtkinter as ctk
+from PIL import Image
 import config as cf
 
 
@@ -6,9 +7,23 @@ class HomeGUI(ctk.CTkFrame):
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs)
 
-        ctk.CTkLabel(self, text = "Hello from home").pack(pady = (0, 15))
+        logoIMG = ctk.CTkImage(
+            dark_image=Image.open("Quizer/logo.png"),
+            size=(250, 100)
+        )
 
-        #TODO: Quiz logo with the light and dark colours.
+
+        # WIDGETS ---------------------------------------------------------------#
+
+        ctk.CTkLabel(self,
+            image = logoIMG,
+            fg_color = cf.LABEL_FG,
+            width = cf.LOGO_FRAME_WIDTH,
+            height = cf.LOGO_FRAME_HEIGHT,
+            corner_radius = cf.LOGO_CORNER_RADIUS,
+            text = ""
+        ).pack(pady = (15, 15))
+
         self.settingsButton = ctk.CTkButton(self,
             text = "Settings",
             font = (cf.FONT_FAMILY, cf.FONT_SIZE, cf.FONT_TYPE),

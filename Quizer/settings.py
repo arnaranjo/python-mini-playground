@@ -9,11 +9,13 @@ class SettingsGUI(ctk.CTkFrame):
         self.lightTheme = False
 
     # WIDGETS ---------------------------------------------------------------#
+    # Labels and selectors:
     
         ctk.CTkLabel(self,
-            text = "Quiz Settings",            
-            font = (cf.FONT_FAMILY, cf.FONT_SIZE+4, cf.FONT_TYPE),
-            bg_color = cf.LABEL_BG,
+            text = "Quiz Settings",       
+            font = (cf.FONT_FAMILY, cf.FONT_SIZE_TITLE, cf.FONT_TYPE),
+            fg_color = cf.LABEL_FG,
+            text_color = cf.TEXT_COLOR,
             width = cf.WINDOW_WIDTH,
             height = cf.LABEL_HEIGHT
         ).grid(
@@ -22,26 +24,29 @@ class SettingsGUI(ctk.CTkFrame):
         )
 
         ctk.CTkLabel(self,
-            text = "Nº Questions",            
+            text = "Nº Questions",
             font = (cf.FONT_FAMILY, cf.FONT_SIZE, cf.FONT_TYPE),
-            bg_color = cf.LABEL_BG,
-            width = cf.LABEL_WIDTH,
-            height = cf.LABEL_HEIGHT
+            fg_color = cf.LABEL_FG,
+            text_color = cf.TEXT_COLOR,
+            height = cf.LABEL_HEIGHT,
+            corner_radius = cf.CORNER_RADIUS
         ).grid(
             row = 1, column = 0,
-            pady = (0, 15), padx = 10
+            pady = (0, 15), padx = 10, sticky = 'ew'
         )
 
         self.numberSelectorLabel = ctk.CTkLabel(self,
             text = "27",            
             font = (cf.FONT_FAMILY, cf.FONT_SIZE, cf.FONT_TYPE),
-            bg_color = cf.LABEL_BG,
-            width = 50,
-            height = cf.LABEL_HEIGHT
+            fg_color = cf.LABEL_FG,
+            text_color = cf.TEXT_COLOR,
+            width = cf.NUM_SELECTOR_WIDTH,
+            height = cf.LABEL_HEIGHT,
+            corner_radius = cf.CORNER_RADIUS
         )
         self.numberSelectorLabel.grid(
             row = 1, column = 1,
-            pady = (0, 15), padx = 10
+            pady = (0, 15), padx = 10, sticky = 'w'
         )
 
         self.numberSelector = ctk.CTkSlider(self,
@@ -56,18 +61,19 @@ class SettingsGUI(ctk.CTkFrame):
         )
 
         ctk.CTkLabel(self,
-            text = "Category",            
+            text = "Category",
             font = (cf.FONT_FAMILY, cf.FONT_SIZE, cf.FONT_TYPE),
-            bg_color = cf.LABEL_BG,
-            width = cf.LABEL_WIDTH,
-            height = cf.LABEL_HEIGHT
+            fg_color = cf.LABEL_FG,
+            text_color = cf.TEXT_COLOR,
+            height = cf.LABEL_HEIGHT,
+            corner_radius = cf.CORNER_RADIUS
         ).grid(
             row = 2, column = 0,
-            pady = (0, 15), padx = 10
+            pady = (0, 15), padx = 10, sticky = 'ew'
         )
 
         self.categoryBox = ctk.CTkComboBox(self,
-            height = cf.LABEL_HEIGHT           
+            height = cf.LABEL_HEIGHT
         )
         self.categoryBox.grid(
             row = 2, column = 1, columnspan = 2,
@@ -76,19 +82,20 @@ class SettingsGUI(ctk.CTkFrame):
         self.categoryBox.set("Any Category")
 
         ctk.CTkLabel(self,
-            text = "Difficulty",            
+            text = "Difficulty",
             font = (cf.FONT_FAMILY, cf.FONT_SIZE, cf.FONT_TYPE),
-            bg_color = cf.LABEL_BG,
-            width = cf.LABEL_WIDTH,
-            height = cf.LABEL_HEIGHT
+            fg_color = cf.LABEL_FG,
+            text_color = cf.TEXT_COLOR,
+            height = cf.LABEL_HEIGHT,
+            corner_radius = cf.CORNER_RADIUS
         ).grid(
             row = 3, column = 0,
-            pady = (0, 15), padx = 10
+            pady = (0, 15), padx = 10, sticky = 'ew'
         )
 
         self.difficultyBox = ctk.CTkComboBox(self,
             height = cf.LABEL_HEIGHT,
-            values = ["Any Difficulty", "Easy", "Medium", "Hard"]       
+            values = ["Any Difficulty", "Easy", "Medium", "Hard"]
         )
         self.difficultyBox.grid(
             row = 3, column = 1, columnspan = 2,
@@ -97,25 +104,28 @@ class SettingsGUI(ctk.CTkFrame):
         self.difficultyBox.set("Any Difficulty")
 
         ctk.CTkLabel(self,
-            text = "Type",            
+            text = "Type",
             font = (cf.FONT_FAMILY, cf.FONT_SIZE, cf.FONT_TYPE),
-            bg_color = cf.LABEL_BG,
-            width = cf.LABEL_WIDTH,
-            height = cf.LABEL_HEIGHT
+            fg_color = cf.LABEL_FG,
+            text_color = cf.TEXT_COLOR,
+            height = cf.LABEL_HEIGHT,
+            corner_radius = cf.CORNER_RADIUS
         ).grid(
             row = 4, column = 0,
-            pady = (0, 15), padx = 10
+            pady = (0, 15), padx = 10, sticky = 'ew'
         )
 
         self.typeBox = ctk.CTkComboBox(self,
             height = cf.LABEL_HEIGHT,
-            values = ["Any Type", "Multiple", "True/False"]          
+            values = ["Any Type", "Multiple", "True/False"]
         )
         self.typeBox.grid(
             row = 4, column = 1, columnspan = 2,
             pady = (0, 15), padx = 10, sticky = 'ew'
         )
         self.typeBox.set("Any Type")
+
+    # Buttons:
 
         self.saveButton = ctk.CTkButton(self,
             text = "Save Settings",
@@ -124,18 +134,7 @@ class SettingsGUI(ctk.CTkFrame):
             height = cf.BOTTON_HEIGHT
         )
         self.saveButton.grid(
-            row = 5, column = 0, 
-            pady = 10, columnspan = 3
-        )
-
-        self.homeButton = ctk.CTkButton(self,
-            text = "Back to Home",
-            font = (cf.FONT_FAMILY, cf.FONT_SIZE, cf.FONT_TYPE),
-            width = cf.BOTTON_WIDTH,
-            height = cf.BOTTON_HEIGHT
-        )
-        self.homeButton.grid(
-            row = 6, column = 0, 
+            row = 5, column = 0,
             pady = 10, columnspan = 3
         )
 
@@ -147,9 +146,21 @@ class SettingsGUI(ctk.CTkFrame):
             height = cf.BOTTON_HEIGHT
         )
         self.infoButton.grid(
-            row = 7, column = 0, 
+            row = 6, column = 0, 
             pady = 10, columnspan = 3
         )
+
+        self.homeButton = ctk.CTkButton(self,
+            text = "Back to Home",
+            font = (cf.FONT_FAMILY, cf.FONT_SIZE, cf.FONT_TYPE),
+            width = cf.BOTTON_WIDTH,
+            height = cf.BOTTON_HEIGHT
+        )
+        self.homeButton.grid(
+            row = 7, column = 0,
+            pady = 10, columnspan = 3
+        )
+
 
     # METHODS ---------------------------------------------------------------#
 
@@ -170,7 +181,7 @@ class SettingsGUI(ctk.CTkFrame):
             for category in categories:
                 if category["name"] == self.categoryBox.get():
                     parameters["category"] = category["id"]
-                    
+
         elif self.categoryBox.get() == "Any Category" \
             and "category" in parameters:
             parameters.pop("category")
@@ -197,7 +208,7 @@ class SettingsGUI(ctk.CTkFrame):
 
             elif self.typeBox.get() == "True/False":
                 parameters["type"] = "boolean"
-                
+
         elif self.typeBox.get() == "Any Type" \
             and "type" in parameters:
             parameters.pop("type")
