@@ -1,9 +1,11 @@
 import base64
 import customtkinter as ctk
 import config as cf
+import tkinter.messagebox as ms
 from random import choice
 from home import HomeGUI
 from settings import SettingsGUI
+from about import AboutGUI
 from quiz_multiple import MultipleQuizGUI
 from quiz_boolean import BooleanQuizGUI
 from quiz_results import ResultsGUI
@@ -12,11 +14,11 @@ from quiz_results import ResultsGUI
 class RootGUI(ctk.CTk):
     def __init__(self, Controller):
         super().__init__()
-        
+
         self.controller = Controller
         self.currentFrame = None
 
-        # Variables setted in main.
+        # Properties setted in main.
         self.categoryNamesList = []
         self.categoryData = []
 
@@ -31,7 +33,7 @@ class RootGUI(ctk.CTk):
         self.grid_rowconfigure(0, weight=1)
         self.grid_columnconfigure(0, weight=1)
 
-        # Set the main screen.
+        # Set the main window.
         self.SwitchHome()
 
 
@@ -42,6 +44,7 @@ class RootGUI(ctk.CTk):
 
         self.currentFrame.categoryBox.configure(values= self.categoryNamesList)
         self.currentFrame.saveButton.configure(command= self.SaveSettings)
+        self.currentFrame.aboutButton.configure(command = self.SwitchAbout)
         self.currentFrame.homeButton.configure(command= self.SwitchHome)
 
         self.currentFrame.grid(row=0, column=0, sticky="nsew")
@@ -49,6 +52,8 @@ class RootGUI(ctk.CTk):
 
     def SwitchHome(self):
         if self.currentFrame is not None:
+            if not isinstance(self.currentFrame, SettingsGUI):
+                self.ResetParameters()
             self.currentFrame.destroy()
         self.currentFrame = HomeGUI(master = self)
 
@@ -64,6 +69,16 @@ class RootGUI(ctk.CTk):
             self.currentFrame.startButton.configure(state = "normal")
 
 
+    def SwitchAbout(self):
+        if self.currentFrame is not None:
+            self.currentFrame.destroy()
+        self.currentFrame = AboutGUI(master = self)
+
+        self.currentFrame.homeButton.configure(command= self.SwitchHome)
+
+        self.currentFrame.grid(row=0, column=0, sticky ="nsew")
+
+
     def SwitchBoolean(self):
         if self.currentFrame is not None:
             self.currentFrame.destroy()
@@ -75,8 +90,6 @@ class RootGUI(ctk.CTk):
 
         self.currentFrame.grid(row=0, column=0, sticky="nsew")
 
-        self.ResetParameters()
-
 
     def SwitchMultipleQuiz(self):
         if self.currentFrame is not None:
@@ -84,14 +97,15 @@ class RootGUI(ctk.CTk):
         self.currentFrame = MultipleQuizGUI(master= self)
 
         self.currentFrame.homeButton.configure(command= self.SwitchHome)
+
+        # Check the answer of the relevant button with the texts of list: answerSelectedList.
+        # Check SetText methob.
         self.currentFrame.buttonA.configure(command= lambda : self.CheckMultiAnswer(0))
         self.currentFrame.buttonB.configure(command= lambda : self.CheckMultiAnswer(1))
         self.currentFrame.buttonC.configure(command= lambda : self.CheckMultiAnswer(2))
         self.currentFrame.buttonD.configure(command= lambda : self.CheckMultiAnswer(3))
 
         self.currentFrame.grid(row=0, column=0, sticky="nsew")
-
-        self.ResetParameters()
 
 
     def SwitchResuls(self, corrects, total, quote):
@@ -106,18 +120,17 @@ class RootGUI(ctk.CTk):
 
         # Empty the parameters to reset the quiz.
         self.apiParameters = {}
-    
+
 
     def SaveSettings(self):
         self.apiParameters = self.currentFrame.GetSelections(self.categoryData)
+        try:
+            # Request the questions with the parameters selected.
+            self.controller.RequestQuestions(self.apiParameters)
+            ms.showinfo(title = "Request completed!", message = "The quiz has been loaded successfully!")
+        except KeyError:
+            ms.showwarning(title = "Wait!", message = "Wait few second to request a new quiz.")
 
-        print(self.apiParameters) #<-------------- TEST.
-
-        # Request the questions with the parameters selected. 
-        self.controller.RequestQuestions(self.apiParameters)
-        # TODO: Fix the exception when the botton is continually pressed.
-        self.currentFrame.saveButton.configure(state= "disabled")
-       
     # Show the quiz in the window, It depens on the type of quiz.
     def ShowQuiz(self, num):
         self.question = self.controller.questionsRequested[num]
@@ -127,7 +140,7 @@ class RootGUI(ctk.CTk):
 
         if type == "multiple":
             self.SwitchMultipleQuiz()
-            self.ShowQuestion()       
+            self.ShowQuestion()
             AnswerList = self.GetAnsweres()
             self.SetText(AnswerList)   
 
@@ -139,12 +152,12 @@ class RootGUI(ctk.CTk):
         self.currentFrame.textQuiz.delete("0.0", "end")
         self.currentFrame.textQuiz.insert(
             "0.0",
-            base64.b64decode(self.question["question"]).decode("utf-8")                
+            base64.b64decode(self.question["question"]).decode("utf-8")
         )
-    
+
     # Set the text of the buttons randomly from the list of results.
     # Only is used for multiple quiz.
-    def SetText(self, list):        
+    def SetText(self, list):
         self.answerSelectedList = []
 
         for button in self.currentFrame.buttonList:
@@ -154,7 +167,6 @@ class RootGUI(ctk.CTk):
             )
             list.pop(list.index(answerSelected))
             self.answerSelectedList.append(answerSelected)
-        print(self.answerSelectedList) #<-------------- TEST.
     
     # Return a list of results for multiple and boolean quiz.
     def GetAnsweres(self):
@@ -164,14 +176,9 @@ class RootGUI(ctk.CTk):
         for answer in self.question["incorrect_answers"]:
             resultList.append(base64.b64decode(answer).decode("utf-8"))
 
-        print(resultList)
         return resultList
 
-    # Number: 
-    # 0 (Text of Button A)
-    # 1 (Text of Button B)
-    # 2 (Text of Button C)
-    # 3 (Text of Button D)
+
     def CheckMultiAnswer(self, number):
         self.controller.BeginQuiz(self.answerSelectedList[number])
 
@@ -179,6 +186,8 @@ class RootGUI(ctk.CTk):
     def CheckBoolAnswer(self, answer):
         self.controller.BeginQuiz(answer)
 
-    # Only when the player returns to the home windows, the parameters are restarted.
+    # It is called only when the player returns to the home windows from a quiz.
     def ResetParameters(self):
         self.apiParameters = {}
+        self.question = []
+        self.controller.ResetQuiz()

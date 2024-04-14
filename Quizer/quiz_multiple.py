@@ -5,11 +5,12 @@ import config as cf
 class MultipleQuizGUI(ctk.CTkFrame):
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs)
-        
+
+
     # WIDGETS ---------------------------------------------------------------#
     
         ctk.CTkLabel(self,
-            text = "Multiple Answer Quiz",            
+            text = "Multiple Answer Quiz",
             font = (cf.FONT_FAMILY, cf.FONT_SIZE_TITLE, cf.FONT_TYPE),
             fg_color = cf.LABEL_FG,
             text_color = cf.TEXT_COLOR,
@@ -21,7 +22,7 @@ class MultipleQuizGUI(ctk.CTkFrame):
             font = (cf.FONT_FAMILY, cf.FONT_SIZE, "bold"),
             width = cf.WINDOW_WIDTH - cf.WINDOW_QUIZ_MARGIN,
             height = cf.WINDOW_QUIZ_HEIGHT,
-            corner_radius = cf.LOGO_CORNER_RADIUS
+            corner_radius = cf.CORNER_RADIUS
         )
         self.textQuiz.pack(pady = (0, 20))
 

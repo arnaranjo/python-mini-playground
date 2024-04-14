@@ -8,7 +8,7 @@ class HomeGUI(ctk.CTkFrame):
         super().__init__(master, **kwargs)
 
         logoIMG = ctk.CTkImage(
-            dark_image=Image.open("Quizer/logo.png"),
+            dark_image=Image.open("Quizer/rsc/logo.png"),
             size=(250, 100)
         )
 
@@ -20,7 +20,7 @@ class HomeGUI(ctk.CTkFrame):
             fg_color = cf.LABEL_FG,
             width = cf.LOGO_FRAME_WIDTH,
             height = cf.LOGO_FRAME_HEIGHT,
-            corner_radius = cf.LOGO_CORNER_RADIUS,
+            corner_radius = cf.CORNER_RADIUS,
             text = ""
         ).pack(pady = (15, 15))
 

@@ -6,11 +6,10 @@ class SettingsGUI(ctk.CTkFrame):
     def __init__(self, master,  **kwargs):
         super().__init__(master, **kwargs)
 
-        self.lightTheme = False
 
     # WIDGETS ---------------------------------------------------------------#
     # Labels and selectors:
-    
+
         ctk.CTkLabel(self,
             text = "Quiz Settings",       
             font = (cf.FONT_FAMILY, cf.FONT_SIZE_TITLE, cf.FONT_TYPE),
@@ -128,7 +127,7 @@ class SettingsGUI(ctk.CTkFrame):
     # Buttons:
 
         self.saveButton = ctk.CTkButton(self,
-            text = "Save Settings",
+            text = "Request Quiz!",
             font = (cf.FONT_FAMILY, cf.FONT_SIZE, cf.FONT_TYPE),
             width = cf.BOTTON_WIDTH,
             height = cf.BOTTON_HEIGHT
@@ -138,14 +137,13 @@ class SettingsGUI(ctk.CTkFrame):
             pady = 10, columnspan = 3
         )
 
-        #TODO: Window with the credits
-        self.infoButton = ctk.CTkButton(self,
-            text = "Credits",
+        self.aboutButton = ctk.CTkButton(self,
+            text = "About",
             font = (cf.FONT_FAMILY, cf.FONT_SIZE, cf.FONT_TYPE),
             width = cf.BOTTON_WIDTH,
             height = cf.BOTTON_HEIGHT
         )
-        self.infoButton.grid(
+        self.aboutButton.grid(
             row = 6, column = 0, 
             pady = 10, columnspan = 3
         )

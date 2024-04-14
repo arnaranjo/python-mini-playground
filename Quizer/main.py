@@ -7,12 +7,13 @@ from quizer import QuizerModel
 
 class QuizerController():
     def __init__(self, View: RootGUI, Model :QuizerModel): 
+
         self.view = View
         self.model = Model
         self.quizNumber = 0
         self.rightAnswers = 0
         self.questionsRequested = []
-        
+
 
     def RequestQuestions(self, parameters):
         self.model.finalParameters = parameters
@@ -20,21 +21,17 @@ class QuizerController():
 
 
     def BeginQuiz(self, answer):        
-        quote = ""
-
         correctAnswer = base64.b64decode(
             self.questionsRequested[self.quizNumber]["correct_answer"]
         ).decode("utf-8")
 
         if answer == correctAnswer: 
-            print("OK")
             self.rightAnswers += 1         
-        else:
-            print("FAIL")
 
         self.quizNumber += 1 
                    
-        if self.quizNumber >= len(self.questionsRequested):          
+        if self.quizNumber >= len(self.questionsRequested):
+            quote = ""          
             if self.rightAnswers >= (self.quizNumber/2):
                 quote = choice(cf.TEX_GOOD_RESULT)
 
@@ -49,11 +46,17 @@ class QuizerController():
                 self.quizNumber,
                 quote
             )
-            self.quizNumber = 0
-            self.rightAnswers = 0
+
+            self.ResetQuiz()
 
         else:
             self.view.ShowQuiz(self.quizNumber)
+
+
+    def ResetQuiz(self):
+        self.quizNumber = 0
+        self.rightAnswers = 0
+        self.questionsRequested = []
 
 
 if __name__ == "__main__":
@@ -63,6 +66,6 @@ if __name__ == "__main__":
     newQuizer.view = newGUI
 
     newQuizer.view.categoryData = newQuizer.model.LookUpCategoryData()
-    newQuizer.view.categoryNamesList = newQuizer.model.LookUpCategoryNames()  
+    newQuizer.view.categoryNamesList = newQuizer.model.LookUpCategoryNames()
 
     newQuizer.view.mainloop()

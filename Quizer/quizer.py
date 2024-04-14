@@ -4,10 +4,11 @@ import config as cf
 
 class QuizerModel:
     def __init__(self):
+
         self.categoryData = []
         self.categoryNameList = ["Any Category"]
         self.finalParameters = {}
-        
+
 
     def LookUpCategoryData(self):
         newCall = requests.get(
@@ -16,7 +17,7 @@ class QuizerModel:
         self.categoriesData = newCall.json()["trivia_categories"]
 
         return self.categoriesData
-    
+
 
     def LookUpCategoryNames(self):
         for category in self.categoriesData:
