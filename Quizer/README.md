@@ -5,6 +5,7 @@ This is a simple graphical user interface (GUI) implementation of a quiz game, u
 To run the code, the following packages are required:
 - [Customtkinter](https://pypi.org/project/customtkinter/)
 - [Pillow](https://pypi.org/project/pillow/)
+- [Requests](https://pypi.org/project/requests/)
 
 ## ScreenShots
 ![Home window](rsc/screenshot1.PNG)
